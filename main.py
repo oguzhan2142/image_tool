@@ -1,15 +1,23 @@
 
 
+import os
 from image import Image
 
 if __name__ == "__main__":
 
     max_allowed = 2000
+    cwd = os.getcwd()
+    input_path = f'{cwd}/samples'
+    output_path = f'{cwd}/outputs'
 
+    isOutputExist = os.path.exists(output_path)
 
-    image = Image("sample.jpeg")
-    image.reduce_image_memory(max_allowed)
-    # image.delete_bg()
-    # image.make_size(max_allowed)
+    if not isOutputExist:
+        os.mkdir(output_path)
 
-    image.save("output.png")
+    for file in os.listdir(input_path):
+        image = Image(os.path.join(input_path, file))
+        image.delete_bg()
+        output_file_path = os.path.join(output_path, file)
+        print(output_file_path)
+        image.save(output_file_path)
